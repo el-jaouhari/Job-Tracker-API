@@ -7,7 +7,8 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o job-tracker cmd/service/main.go
 
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates
-WORKDIR /root/
+WORKDIR /app
 COPY --from=builder /app/job-tracker ./job-tracker
+COPY --from=builder /app/db ./db
 EXPOSE 8080
 CMD ["./job-tracker"]
